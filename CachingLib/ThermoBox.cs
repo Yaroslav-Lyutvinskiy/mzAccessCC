@@ -87,9 +87,9 @@ public class RawFileBox : FileBox{
 		    } 
 		    Filter = null ;
 	    }
-        IndexDir[lastfull] = total +1;
-        IndexDir[total + 1] = -1;
-        IndexRev[total + 1] = lastfull;
+        IndexDir[lastfull] = IndexDir.Length - 1;
+        IndexDir[IndexDir.Length - 1] = -1;
+        IndexRev[IndexDir.Length - 1] = lastfull;
 
         TotalRT = RawSpectra[lastfull].RT;
         AverageTimeStamp = TotalRT/total;
@@ -115,7 +115,7 @@ public class RawFileBox : FileBox{
                 
         }
         RawSpectra[0].Data = new MZData[0];
-        RawSpectra[total + 1].Data = new MZData[0];
+        RawSpectra[IndexDir.Length - 1].Data = new MZData[0];
 
         return Spectra;
     }

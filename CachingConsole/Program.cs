@@ -27,7 +27,7 @@ namespace CachingConsole {
     class Program {
 
         static void Log(string Message) {
-            Console.Write(Message);
+            Console.WriteLine(Message);
         }
 
         static void Main(string[] args) {
