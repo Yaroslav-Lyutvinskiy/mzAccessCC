@@ -54,7 +54,9 @@ namespace CachingService {
             CachSettings = RR.OpenSubKey("CServiceSettings");
             Cashing.ThermoThreshold = Convert.ToDouble(CachSettings.GetValue("AgilentThreshold").ToString());
             Cashing.AgilentThreshold = Convert.ToDouble(CachSettings.GetValue("ThermoThreshold").ToString());
-
+            Cashing.AgilentCacheOn = Convert.ToInt32(CachSettings.GetValue("AgilentCacheOn").ToString()) == 0 ? false : true;
+            Cashing.ThermoCacheOn = Convert.ToInt32(CachSettings.GetValue("ThermoCacheOn ").ToString()) == 0 ? false : true;
+            Cashing.mzMLCacheOn = Convert.ToInt32(CachSettings.GetValue("mzMLCacheOn").ToString()) == 0 ? false : true;
             Cashing.Log = Log;
 
             MainTimer = new System.Timers.Timer(Convert.ToInt32(CachSettings.GetValue("Period").ToString())*60000.0);

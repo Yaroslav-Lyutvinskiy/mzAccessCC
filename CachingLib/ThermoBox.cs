@@ -42,7 +42,6 @@ public class RawFileBox : FileBox{
             return 0;
 
 	    int i, lastfull = 0, total = 0;
-        double TotalEsi = 0.0;
 
         //fake [0] spectra with no data and fake last spectra with no data 
 	    ms2index = new int[Spectra+2];
@@ -52,10 +51,6 @@ public class RawFileBox : FileBox{
         for(int j = 0 ; j <= Spectra+1 ; j++){
             RawSpectra[j] = new RawData();
         }
-
-        ESICurrents = new double[Spectra + 2];
-        TimeStamps = new double[Spectra+2];
-        TimeCoefs = new double[Spectra+2];
 
         string Filter = null;
 
@@ -68,8 +63,6 @@ public class RawFileBox : FileBox{
 
 		    if(Filter.Contains(" Full ") &&  Filter.Contains(" ms ")  && Filter.Contains("FTMS") ) { //is a FULL MS
 
-			    TimeStamps[i] = RawSpectra[lastfull].RT;
-                    
                 IndexDir[lastfull] = i;
 			    IndexRev[i] = lastfull;
 
@@ -80,27 +73,14 @@ public class RawFileBox : FileBox{
 
 				RawFile.RTFromScanNum(i, ref RawSpectra[i].RT);
                 RawSpectra[i].Filter = Filter;
-                TotalRT = RawSpectra[i].RT;
-
-                TimeStamps[i] = RawSpectra[i].RT - TimeStamps[i];
-
 		    } 
 		    Filter = null ;
 	    }
         IndexDir[lastfull] = IndexDir.Length - 1;
         IndexDir[IndexDir.Length - 1] = -1;
         IndexRev[IndexDir.Length - 1] = lastfull;
-
         TotalRT = RawSpectra[lastfull].RT;
-        AverageTimeStamp = TotalRT/total;
 
-        //пересчитаем временные коэффициэнты 
-        for (i = IndexDir[0] ; IndexDir[i] != -1 ; i = IndexDir[i]) {
-            TimeCoefs[i] = (TimeStamps[i]+TimeStamps[IndexDir[i]])/(2.0*AverageTimeStamp);
-            ESICurrents[i] = ESICurrents[i]/(TotalEsi/(double)total);
-        }
-
-        TimeCoefs[i] = 1.0;
     //Spectra number 0 has to have RT at the same distance as others
         if(total > 0) {
             double FRT = RawSpectra[IndexDir[0]].RT;
@@ -112,7 +92,6 @@ public class RawFileBox : FileBox{
         }else {
             RawSpectra[0].RT = 0.0;
             RawSpectra[1].RT = 0.1;
-                
         }
         RawSpectra[0].Data = new MZData[0];
         RawSpectra[IndexDir.Length - 1].Data = new MZData[0];

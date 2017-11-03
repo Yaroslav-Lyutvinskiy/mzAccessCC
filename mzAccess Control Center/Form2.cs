@@ -46,6 +46,11 @@ namespace mzAccess_Control_Center {
             Cashing.Log = Log;
             Application.UseWaitCursor = true;
             Application.DoEvents();
+            Cashing.ThermoThreshold = MainForm.CSS.ThermoThreshold;
+            Cashing.AgilentThreshold = MainForm.CSS.AgilentThreshold;
+            Cashing.AgilentCacheOn = MainForm.CSS.AgilentCacheOn;
+            Cashing.ThermoCacheOn = MainForm.CSS.ThermoCacheOn;
+            Cashing.mzMLCacheOn = MainForm.CSS.mzMLCacheOn;
             for(int i = 0 ; i < MainForm.listBox1.Items.Count ; i++) {
                 Cashing.TraverseTree(MainForm.listBox1.Items[i].ToString(),false);
                 Application.DoEvents();

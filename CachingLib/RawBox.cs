@@ -32,11 +32,6 @@ using System.IO;
         //        return RawFile.RawSpectra[SpectraIndex].Scan;
         //    }
         //}
-        public double TimeCoeff{
-            get{
-                return RawFile.TimeCoefs[Scan];
-            }
-        }
         public double RT{
             get{
                 return RawFile.RawSpectra[Scan].RT;
@@ -81,11 +76,6 @@ using System.IO;
         //заполнены только сканов соответствующих full-MS спектрам
         public int[] IndexDir; //указывает на номер скана следующего full-MS спектра
         public int[] IndexRev; //указывает на номер скана предидущего full-MS спектра
-
-        public double[] ESICurrents; //значения тока элекстроспрея 
-        public double[] TimeStamps; //промежуток после предыдущего MS-only спектра - в минутах
-        public double[] TimeCoefs;
-        protected double AverageTimeStamp;
 
         public bool RTCorrection;
 

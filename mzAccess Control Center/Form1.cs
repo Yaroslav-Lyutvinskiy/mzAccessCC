@@ -39,11 +39,12 @@ namespace mzAccess_Control_Center {
         XmlDocument wConfig = new XmlDocument();
         XmlNode N;
         WSSettings WSS = new WSSettings();
-        CSSettings CSS = new CSSettings();
+        public CSSettings CSS = null; 
         string wConfigFileName;
         RegistryKey RR;
 
         private void Form1_Load(object sender, EventArgs e) {
+            CSS = new CSSettings(this);
             RegistryKey R = Registry.LocalMachine;
             RR =  R.OpenSubKey("SOFTWARE\\mzAccess Server");
             if(RR == null) {
@@ -68,6 +69,12 @@ namespace mzAccess_Control_Center {
                 if (NN.Attributes["key"].Value == "AgilentFiles") {
                     WSS.AgilentFiles = Convert.ToInt32(NN.Attributes["value"].Value);
                 }
+                if (NN.Attributes["key"].Value == "mzMLEnabled") {
+                    WSS.mzMLEnabled = Convert.ToBoolean(NN.Attributes["value"].Value);
+                }
+                if (NN.Attributes["key"].Value == "mzMLFiles") {
+                    WSS.mzMLFiles = Convert.ToInt32(NN.Attributes["value"].Value);
+                }
                 if (NN.Attributes["key"].Value == "CasheEnabled") {
                     WSS.CasheEnabled = Convert.ToBoolean(NN.Attributes["value"].Value);
                 }
@@ -88,6 +95,9 @@ namespace mzAccess_Control_Center {
             CSS.AgilentThreshold = Convert.ToDouble(CachSettings.GetValue("AgilentThreshold").ToString());
             CSS.ThermoThreshold = Convert.ToDouble(CachSettings.GetValue("ThermoThreshold").ToString());
             CSS.Period = Convert.ToInt32(CachSettings.GetValue("Period").ToString());
+            CSS._AgilentCacheOn = Convert.ToInt32(CachSettings.GetValue("AgilentCacheOn").ToString()) == 0 ? false : true;
+            CSS._ThermoCacheOn = Convert.ToInt32(CachSettings.GetValue("ThermoCacheOn").ToString()) == 0 ? false : true;
+            CSS._mzMLCacheOn = Convert.ToInt32(CachSettings.GetValue("mzMLCacheOn").ToString()) == 0 ? false : true;
             propertyGrid2.SelectedObject = CSS;
 
             //if service does not exists - uncheck and gray checkbox
@@ -138,6 +148,12 @@ namespace mzAccess_Control_Center {
                 if (NN.Attributes["key"].Value == "AgilentFiles") {
                     NN.Attributes["value"].Value = WSS.AgilentFiles.ToString();
                 }
+                if (NN.Attributes["key"].Value == "mzMLEnabled") {
+                    NN.Attributes["value"].Value = WSS.mzMLEnabled.ToString();
+                }
+                if (NN.Attributes["key"].Value == "mzMLFiles") {
+                    NN.Attributes["value"].Value = WSS.mzMLFiles.ToString();
+                }
                 if (NN.Attributes["key"].Value == "CasheEnabled") {
                     NN.Attributes["value"].Value = WSS.CasheEnabled.ToString();
                 }
@@ -164,6 +180,11 @@ namespace mzAccess_Control_Center {
             CachSettings.SetValue("AgilentThreshold", Convert.ToString(CSS.AgilentThreshold));
             CachSettings.SetValue("ThermoThreshold", Convert.ToString(CSS.ThermoThreshold));
             CachSettings.SetValue("Period", Convert.ToString(CSS.Period));
+
+            CachSettings.SetValue("AgilentCacheOn", Convert.ToString(CSS.AgilentCacheOn?1:0));
+            CachSettings.SetValue("ThermoCacheOn", Convert.ToString(CSS.ThermoCacheOn?1:0));
+            CachSettings.SetValue("mzMLCacheOn", Convert.ToString(CSS.mzMLCacheOn?1:0));
+
             //Roots
             string[] Values = CachSettings.GetValueNames();
             foreach(string s in Values) {
@@ -193,12 +214,19 @@ namespace mzAccess_Control_Center {
             this.Close();
         }
 
-        void PreviewFiles() {
+        public void PreviewFiles() {
             int FilesCount = 0, FoldersCount = 0;
             int files = 0, folders = 0;
             label1.Text = "Files for caching are being counted...";
+            label1.ForeColor = Color.DarkRed;
             Application.UseWaitCursor = true;
             Application.DoEvents();
+            Cashing.ThermoThreshold = CSS.ThermoThreshold;
+            Cashing.AgilentThreshold = CSS.AgilentThreshold;
+            Cashing.AgilentCacheOn = CSS.AgilentCacheOn;
+            Cashing.ThermoCacheOn = CSS.ThermoCacheOn;
+            Cashing.mzMLCacheOn = CSS.mzMLCacheOn;
+
             for(int i = 0 ; i < listBox1.Items.Count ; i++) {
                 Cashing.TraverseTreePreview(listBox1.Items[i].ToString(), ref files, ref folders);
                 FilesCount += files;
@@ -207,6 +235,7 @@ namespace mzAccess_Control_Center {
                 Application.DoEvents();
             }
             label1.Text = String.Format("{0} files in {1} folders need to be cached",FilesCount,FoldersCount);
+            label1.ForeColor = Color.FromKnownColor(KnownColor.ControlText);
             Application.UseWaitCursor = false;
         }
 
@@ -233,14 +262,32 @@ namespace mzAccess_Control_Center {
         public int ThermoFiles { get; set; }
         public bool AgilentEnabled { get; set; }
         public int AgilentFiles { get; set; }
+        public bool mzMLEnabled { get; set; }
+        public int mzMLFiles { get; set; }
         public bool CasheEnabled { get; set; }
         public int RCHFiles { get; set; }
         public int FileTimeOut { get; set; }
     }
 
-    class CSSettings {
+    public class CSSettings {
+        public CSSettings(Form1 F) {
+            this.F = F;
+        }
+        Form1 F;
         public double ThermoThreshold { get; set;  }
         public double AgilentThreshold { get; set;  }
+        public bool _ThermoCacheOn; 
+        public bool ThermoCacheOn {
+            get { return _ThermoCacheOn; }
+            set { _ThermoCacheOn = value; F.PreviewFiles(); } }
+        public bool _AgilentCacheOn; 
+        public bool AgilentCacheOn {
+            get { return _AgilentCacheOn; }
+            set { _AgilentCacheOn = value; F.PreviewFiles(); } }
+        public bool _mzMLCacheOn; 
+        public bool mzMLCacheOn {
+            get { return _mzMLCacheOn; }
+            set { _mzMLCacheOn = value; F.PreviewFiles(); } }
         public int Period { get; set; }
     }
 

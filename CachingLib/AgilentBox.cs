@@ -50,7 +50,6 @@ using Agilent.MassSpectrometry.DataAnalysis;
                 return 0;
 
 	        int i, lastfull = 0, total = 0;
-            double TotalEsi = 0.0;
 
 	        ms2index = new int[Spectra+2];
             IndexDir = new int[Spectra+2];
@@ -61,9 +60,6 @@ using Agilent.MassSpectrometry.DataAnalysis;
             }
             Buf = new MZData[500000];
             for (i = 0; i < 500000; i++) Buf[i] = new MZData();
-            ESICurrents = new double[Spectra+2];
-            TimeStamps = new double[Spectra+2];
-            TimeCoefs = new double[Spectra+2];
 
             LowRT = 0.0;
             HighRT = 0.0;
@@ -75,7 +71,6 @@ using Agilent.MassSpectrometry.DataAnalysis;
 		        //YL - для спектров ms-only
 		        if(ScanRecord.MSScanType == MSScanType.Scan && ScanRecord.MSLevel == MSLevel.MS && ScanRecord.CollisionEnergy == 0.0) { //is a FULL MS
 
-			        TimeStamps[i] = RawSpectra[lastfull].RT;
                     
                     IndexDir[lastfull] = i;
 			        IndexRev[i] = lastfull;
@@ -86,10 +81,6 @@ using Agilent.MassSpectrometry.DataAnalysis;
 			        ++total;
 
                     RawSpectra[i].RT = ScanRecord.RetentionTime;
-
-                    TotalRT = RawSpectra[i].RT;
-
-                    TimeStamps[i] = RawSpectra[i].RT - TimeStamps[i];
 
 		        }  else {
 			        ms2index[i] = lastfull;
@@ -102,16 +93,7 @@ using Agilent.MassSpectrometry.DataAnalysis;
 
             //IndexDir[lastfull] = -1;
             TotalRT = RawSpectra[lastfull].RT;
-            AverageTimeStamp = TotalRT/total;
-
             //пересчитаем временные коэффициэнты 
-            for (i = IndexDir[0] ; IndexDir[i] != -1 ; i = IndexDir[i]) {
-
-                TimeCoefs[i] = (TimeStamps[i]+TimeStamps[IndexDir[i]])/(2.0*AverageTimeStamp);
-
-                ESICurrents[i] = ESICurrents[i]/(TotalEsi/(double)total);
-            }
-            TimeCoefs[i] = 1.0;
 
             //Spectra number 0 has to have RT at the same distance as others
             double FRT = RawSpectra[IndexDir[0]].RT;

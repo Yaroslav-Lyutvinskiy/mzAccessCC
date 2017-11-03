@@ -34,6 +34,10 @@ public partial class Cashing {
     public static double ThermoThreshold = 0.0;
     public static double AgilentThreshold = 0.0;
 
+    public static bool AgilentCacheOn = true; 
+    public static bool mzMLCacheOn = true; 
+    public static bool ThermoCacheOn = true; 
+
     static List<string> RawFiles;
     static List<string> R0Files;//key - file to cahce, value - Fact file
     static List<string> R1Files;
@@ -92,7 +96,7 @@ public partial class Cashing {
                     // Perform whatever action is required in your scenario.
                     //Console.WriteLine("{0}: {1}, {2}", file.Name, file.Length, file.LastWriteTime);
                     string Ext = file.Extension;
-                    if(Ext == ".raw") {
+                    if((Ext.ToLower() == ".raw" && ThermoCacheOn) || (Ext.ToLower() == ".mzml" && mzMLCacheOn)) {
                         RawFiles.Add(file.FullName);
                     }
                     if(Ext == ".rch") {
@@ -122,7 +126,7 @@ public partial class Cashing {
             // This could also be done before handing the files.
             foreach(ZlpDirectoryInfo dir in subDirs) {
                 try {
-                    if(dir.FullName.IndexOf(".d") == dir.FullName.Length - 2) {
+                    if(dir.FullName.IndexOf(".d") == dir.FullName.Length - 2 && AgilentCacheOn) {
                         RawFiles.Add(dir.FullName);
                     } else {
                         dirs.Push(dir.FullName);
@@ -235,7 +239,7 @@ public partial class Cashing {
             // Modify this block to perform your required task.
             foreach(ZlpFileInfo file in files) {
                 string Ext = file.Extension;
-                if(Ext == ".raw") {
+                if((Ext.ToLower() == ".raw" && ThermoCacheOn) || (Ext.ToLower() == ".mzml" && mzMLCacheOn)) {
                     RawFiles.Add(file.FullName);
                 }
                 if(Ext == ".rch") {
@@ -249,7 +253,7 @@ public partial class Cashing {
             // Push the subdirectories onto the stack for traversal.
             // This could also be done before handing the files.
             foreach(ZlpDirectoryInfo dir in subDirs) {
-                if(dir.FullName.IndexOf(".d") == dir.FullName.Length - 2) {
+                if(dir.FullName.IndexOf(".d") == dir.FullName.Length - 2 && AgilentCacheOn) {
                     RawFiles.Add(dir.FullName);
                 } else {
                     dirs.Push(dir.FullName);

@@ -91,9 +91,10 @@
             // propertyGrid1
             // 
             this.propertyGrid1.HelpVisible = false;
+            this.propertyGrid1.LineColor = System.Drawing.SystemColors.ControlDark;
             this.propertyGrid1.Location = new System.Drawing.Point(6, 19);
             this.propertyGrid1.Name = "propertyGrid1";
-            this.propertyGrid1.Size = new System.Drawing.Size(537, 149);
+            this.propertyGrid1.Size = new System.Drawing.Size(537, 145);
             this.propertyGrid1.TabIndex = 1;
             this.propertyGrid1.ToolbarVisible = false;
             // 
@@ -113,9 +114,9 @@
             this.groupBox3.Controls.Add(this.propertyGrid2);
             this.groupBox3.Controls.Add(this.label1);
             this.groupBox3.Controls.Add(this.button3);
-            this.groupBox3.Location = new System.Drawing.Point(12, 392);
+            this.groupBox3.Location = new System.Drawing.Point(12, 389);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(549, 128);
+            this.groupBox3.Size = new System.Drawing.Size(549, 160);
             this.groupBox3.TabIndex = 3;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Cache ";
@@ -123,7 +124,7 @@
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(313, 58);
+            this.checkBox1.Location = new System.Drawing.Point(306, 58);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(220, 17);
             this.checkBox1.TabIndex = 3;
@@ -133,16 +134,17 @@
             // propertyGrid2
             // 
             this.propertyGrid2.HelpVisible = false;
-            this.propertyGrid2.Location = new System.Drawing.Point(26, 41);
+            this.propertyGrid2.LineColor = System.Drawing.SystemColors.ControlDark;
+            this.propertyGrid2.Location = new System.Drawing.Point(26, 35);
             this.propertyGrid2.Name = "propertyGrid2";
-            this.propertyGrid2.Size = new System.Drawing.Size(257, 81);
+            this.propertyGrid2.Size = new System.Drawing.Size(257, 115);
             this.propertyGrid2.TabIndex = 2;
             this.propertyGrid2.ToolbarVisible = false;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(23, 24);
+            this.label1.Location = new System.Drawing.Point(26, 17);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(181, 13);
             this.label1.TabIndex = 1;
@@ -161,7 +163,7 @@
             // ApplyButton
             // 
             this.ApplyButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.ApplyButton.Location = new System.Drawing.Point(399, 608);
+            this.ApplyButton.Location = new System.Drawing.Point(399, 613);
             this.ApplyButton.Name = "ApplyButton";
             this.ApplyButton.Size = new System.Drawing.Size(75, 23);
             this.ApplyButton.TabIndex = 4;
@@ -172,7 +174,7 @@
             // button5
             // 
             this.button5.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.button5.Location = new System.Drawing.Point(486, 608);
+            this.button5.Location = new System.Drawing.Point(486, 613);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(75, 23);
             this.button5.TabIndex = 5;
@@ -183,7 +185,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(15, 528);
+            this.label2.Location = new System.Drawing.Point(15, 554);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(140, 13);
             this.label2.TabIndex = 6;
@@ -192,7 +194,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(15, 551);
+            this.label3.Location = new System.Drawing.Point(15, 577);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(145, 13);
             this.label3.TabIndex = 7;
@@ -201,7 +203,7 @@
             // linkLabel1
             // 
             this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(170, 528);
+            this.linkLabel1.Location = new System.Drawing.Point(170, 554);
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.Size = new System.Drawing.Size(138, 13);
             this.linkLabel1.TabIndex = 8;
@@ -212,7 +214,7 @@
             // linkLabel2
             // 
             this.linkLabel2.AutoSize = true;
-            this.linkLabel2.Location = new System.Drawing.Point(170, 551);
+            this.linkLabel2.Location = new System.Drawing.Point(170, 577);
             this.linkLabel2.Name = "linkLabel2";
             this.linkLabel2.Size = new System.Drawing.Size(239, 13);
             this.linkLabel2.TabIndex = 9;
@@ -223,7 +225,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(15, 572);
+            this.label4.Location = new System.Drawing.Point(15, 598);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(57, 13);
             this.label4.TabIndex = 10;
@@ -232,7 +234,7 @@
             // linkLabel3
             // 
             this.linkLabel3.AutoSize = true;
-            this.linkLabel3.Location = new System.Drawing.Point(170, 572);
+            this.linkLabel3.Location = new System.Drawing.Point(170, 598);
             this.linkLabel3.Name = "linkLabel3";
             this.linkLabel3.Size = new System.Drawing.Size(136, 13);
             this.linkLabel3.TabIndex = 11;
@@ -244,7 +246,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(571, 643);
+            this.ClientSize = new System.Drawing.Size(571, 649);
             this.Controls.Add(this.linkLabel3);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.linkLabel2);
